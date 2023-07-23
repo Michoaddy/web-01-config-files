@@ -1,0 +1,10 @@
+#!/usr/bin/env bash
+# Install NGINX server, set error page and server redirection
+apt-get -y update
+apt-get -y install nginx
+echo "Hello World!" > /var/www/html/index.html
+
+echo "Ceci n'est pas une page" > /var/www/html/404.html
+sed -i '/server_name _/a location /redirect_me { return 301 https://www.youtube.com/watch?v=QH2-TGUlwu4; }' /etc/nginx/sites-available/default
+sed -i '/server_name _/a error_page 404 /404.html; location = /404.html {root /var/www/html/;internal; }' /etc/nginx/sites-available/default
+sudo service nginx restart
